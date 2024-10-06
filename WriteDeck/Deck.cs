@@ -29,11 +29,54 @@ namespace WriteADeck
             // Use a switch expression to get each card's suit: var suit = cardParts[2] switch {
             // Use a switch expression to get each card's value: var value = cardParts[0] switch {
             // Ad the card to the deck.
+            using (StreamReader sr = new StreamReader(filename))
+            {
+                string nextCard;
+                while ((nextCard = sr.ReadLine()) != null)
+                {
+                    var cardParts = nextCard.Split(new char[] { ' ' });
+
+                    Suits suit = cardParts[2] switch
+                    {
+                        "Clubs" => Suits.Clubs,
+                        "Diamonds" => Suits.Diamonds,
+                        "Hearts" => Suits.Hearts,
+                        "Spades" => Suits.Spades,
+                        _ => throw new InvalidDataException($"Invalid suit: {cardParts[2]}")
+                    };
+
+                    Values values = cardParts[0] switch
+                    {
+                        "Ace" => Values.Ace,
+                        "Two" => Values.Two,
+                        "Three" => Values.Three,
+                        "Four" => Values.Four,
+                        "Five" => Values.Five,
+                        "Six" => Values.Six,
+                        "Seven" => Values.Seven,
+                        "Eight" => Values.Eight,
+                        "Nine" => Values.Nine,
+                        "Ten" => Values.Ten,
+                        "Jack" => Values.Jack,
+                        "Queen" => Values.Queen,
+                        "King" => Values.King,
+                        _ => throw new InvalidDataException($"Invalid value: {cardParts[0]}")
+                    };
+                    Add(new Card(values, suit));
+                }
+            }
         }
 
         public void WriteCards(string filename)
         {
             // TODO
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                foreach (Card card in this)
+                {
+                    sw.WriteLine(card.Name);
+                }
+            }
         }
 
 
