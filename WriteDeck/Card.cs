@@ -29,6 +29,17 @@ namespace WriteADeck
             return Name;
         }
 
+        public static void WriteCards(string filename, List<Card> cards)
+        {
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                foreach (Card card in cards)
+                {
+                    sw.WriteLine(card.Name);
+                }
+            }
+        }
+
     }
 
 }
